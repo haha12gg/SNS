@@ -18,7 +18,7 @@ def threaded(c):
             print('Bye')
 
             # lock released on exit
-            # print_lock.release()
+            print_lock.release()
             break
 
         # reverse the given string from client
@@ -52,7 +52,7 @@ def Main():
         c, addr = s.accept()
 
         # lock acquired by client
-        # print_lock.acquire()
+        print_lock.acquire()
         print('Connected to :', addr[0], ':', addr[1])
 
         # Start a new thread and return its identifier
