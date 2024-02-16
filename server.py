@@ -22,7 +22,7 @@ def threaded(c):
             break
 
         # reverse the given string from client
-        data = data[::-1]
+        # data = data[::-1]
 
         # send back reversed string to client
         c.send(data)
