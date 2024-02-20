@@ -1,6 +1,7 @@
 # import socket programming library
 import socket
-
+from datetime import datetime, timedelta
+import re
 # import thread module
 from _thread import *
 import threading
@@ -59,6 +60,23 @@ def Main():
         start_new_thread(threaded, (c,))
     s.close()
 
+
+# Convert data to particular format eg tomorrow to
+def convert_date_format(input_text):
+    today = datetime.now().date()
+    if 'tomorrow' in input_text:
+        return today + timedelta(days=1)
+    elif 'today' in input_text:
+        return today
+    else:
+        match = re.search(r'\b\d{1,2}\s+\w+\s+\d{4}\b', input_text)
+        if match:
+            date_str = match.group(0)
+            try:
+                return datetime.strptime(date_str, '%d %B %Y').date()
+            except ValueError:
+                pass
+    return None
 
 if __name__ == '__main__':
     Main()
