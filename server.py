@@ -75,7 +75,10 @@ def convert_date_format(input_text):
             try:
                 return datetime.strptime(date_str, '%d %B %Y').date()
             except ValueError:
-                pass
+                try:
+                    return datetime.strptime(date_str, '%d %b %Y').date()
+                except ValueError:
+                    pass
     return None
 
 if __name__ == '__main__':

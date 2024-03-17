@@ -9,7 +9,6 @@ def Main():
     port = 12345
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     # connect to server on local computer
     s.connect((host, port))
 
