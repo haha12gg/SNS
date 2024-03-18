@@ -41,8 +41,6 @@ df_selected = pd.get_dummies(df_selected, columns=['month_day'])
 
 # Apply low-pass filter
 values = df_selected.values
-# b, a = signal.iirfilter(4, 0.03, btype='low', ftype='butter')
-# filtered_values = signal.filtfilt(b, a, values, axis=0)
 
 # Normalize features
 scaler = MinMaxScaler(feature_range=(0, 1))
