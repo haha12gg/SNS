@@ -11,8 +11,8 @@ from sklearn.metrics import mean_squared_error
 
 # Load and combine datasets
 file_paths = [
-    'London2_with_sunshine.csv',
-    'London3_with_sunshine.csv',
+    'modified_London3.csv',
+    'modified_London2.csv',
     'London13.csv'
 ]
 dfs = [pd.read_csv(file_path) for file_path in file_paths]
@@ -41,8 +41,8 @@ df_selected = pd.get_dummies(df_selected, columns=['month_day'])
 
 # Apply low-pass filter
 values = df_selected.values
-b, a = signal.iirfilter(4, 0.03, btype='low', ftype='butter')
-filtered_values = signal.filtfilt(b, a, values, axis=0)
+# b, a = signal.iirfilter(4, 0.03, btype='low', ftype='butter')
+# filtered_values = signal.filtfilt(b, a, values, axis=0)
 
 # Normalize features
 scaler = MinMaxScaler(feature_range=(0, 1))
@@ -56,7 +56,7 @@ def create_sequences(data, look_back):
         y.append(data[i])
     return np.array(X), np.array(y)
 
-look_back = 10
+look_back = 4
 X, y = create_sequences(scaled_data, look_back)
 
 # Split data
@@ -73,7 +73,7 @@ model = Sequential([
 
 # Compile and train
 model.compile(optimizer='adam', loss='mse')
-history = model.fit(X_train, y_train, epochs=25, batch_size=128, validation_data=(X_test, y_test), verbose=2)
+history = model.fit(X_train, y_train, epochs=12, batch_size=128, validation_data=(X_test, y_test), verbose=2)
 
 # Predictions
 predictions = model.predict(X_test)

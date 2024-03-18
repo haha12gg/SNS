@@ -10,8 +10,8 @@ scaler = joblib.load('scaler.gz')
 
 # Load and combine datasets
 file_paths = [
-    'London2_with_sunshine.csv',
-    'London3_with_sunshine.csv',
+    'modified_London3.csv',
+    'modified_London2.csv',
     'London13.csv'
 ]
 dfs = [pd.read_csv(file_path) for file_path in file_paths]
@@ -29,15 +29,24 @@ features = ['datetime', 'month_day', 'cloudcover', 'tempmax', 'tempmin', 'precip
 df_selected = combined_df[features]
 df_selected = pd.get_dummies(df_selected, columns=['month_day'])
 
-# Ensure the input sequence matches the model's expected shape
-look_back = 10
+# Initially set reference days (look_back) to 5
+look_back = 4
 num_features = df_selected.drop(columns=['datetime']).shape[1]
 
 # Interactive prediction
 while True:
-    user_input = input("Enter a date (YYYY-MM-DD) for weather prediction or 'exit' to quit: ")
+    user_input = input("Enter a date (YYYY-MM-DD) for weather prediction, 'days' to change the reference days, or 'exit' to quit: ")
     if user_input.lower() == 'exit':
         break
+    elif user_input.lower() == 'days':
+        new_days = input("Enter the number of reference days: ")
+        try:
+            look_back = int(new_days)
+            print(f"Reference days set to {look_back}.")
+            continue
+        except ValueError:
+            print("Invalid input. Please enter a numeric value.")
+            continue
 
     try:
         input_date = datetime.strptime(user_input, "%Y-%m-%d")
@@ -45,7 +54,7 @@ while True:
         print("Invalid date format. Please enter the date in the format YYYY-MM-DD.")
         continue
 
-    # Generate dates for previous 10 days
+    # Generate dates for previous reference days
     prev_dates = [input_date - timedelta(days=i) for i in range(1, look_back + 1)]
 
     # Filter the selected dataframe for these dates and features
@@ -72,4 +81,4 @@ while True:
     print(f"Precipitation: {prediction_inversed[0, 3]:.2f}")
     print(f"Sea Level Pressure: {prediction_inversed[0, 4]:.2f}")
     print(f"Snow Depth: {prediction_inversed[0, 5]:.2f}")
-    # Add more fields if necessary
+    print(f"Solar Radiation: {prediction_inversed[0, 6]:.2f}")
