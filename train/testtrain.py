@@ -10,9 +10,9 @@ scaler = joblib.load('scaler.gz')
 
 # Load and combine datasets
 file_paths = [
-    'modified_London3.csv',
-    'modified_London2.csv',
-    'London13.csv'
+    '../dataset/modified_London3.csv',
+    '../dataset/modified_London2.csv',
+    '../dataset/London13.csv'
 ]
 dfs = [pd.read_csv(file_path) for file_path in file_paths]
 combined_df = pd.concat(dfs, ignore_index=True)

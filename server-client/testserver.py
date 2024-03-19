@@ -11,14 +11,14 @@ import joblib
 print_lock = threading.Lock()
 
 # Load the trained model and scaler
-model = load_model("weather_prediction_model.h5")
-scaler = joblib.load('scaler.gz')
+model = load_model("../train/weather_prediction_model.h5")
+scaler = joblib.load('../train/scaler.gz')
 
 # Load and combine datasets
 file_paths = [
-    'London13.csv',
-    'modified_London2.csv',
-    'modified_London3.csv'
+    '../dataset/modified_London3.csv',
+    '../dataset/modified_London2.csv',
+    '../dataset/London13.csv'
 ]
 dfs = [pd.read_csv(file_path) for file_path in file_paths]
 combined_df = pd.concat(dfs, ignore_index=True)
