@@ -2,9 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from scipy import signal
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.layers import LSTM, Dense, GRU, Dropout
 import matplotlib.pyplot as plt
 import joblib
 from sklearn.metrics import mean_squared_error
@@ -18,9 +17,13 @@ file_paths = [
 dfs = [pd.read_csv(file_path) for file_path in file_paths]
 combined_df = pd.concat(dfs, ignore_index=True)
 
+# Set datetime as index
+combined_df['datetime'] = pd.to_datetime(combined_df['datetime'])
+combined_df.set_index('datetime', inplace=True)
+
 # Data cleaning
-combined_df.drop_duplicates(subset=['datetime'], inplace=True)
-combined_df.sort_values('datetime', inplace=True)
+combined_df = combined_df.loc[~combined_df.index.duplicated()]
+combined_df.sort_index(inplace=True)
 combined_df = combined_df.interpolate(method='linear')
 
 # Detect and remove outliers
@@ -28,9 +31,8 @@ z_scores = (combined_df - combined_df.mean()) / combined_df.std()
 outliers = z_scores.abs() > 3
 combined_df = combined_df[~outliers.any(axis=1)]
 
-# Convert datetime to "MM-DD" format and add it as a feature
-combined_df['datetime'] = pd.to_datetime(combined_df['datetime'])
-combined_df['month_day'] = combined_df['datetime'].dt.strftime('%m-%d')
+# Add month_day as a feature
+combined_df['month_day'] = combined_df.index.strftime('%m-%d')
 
 # Feature selection and engineering
 features = ['month_day', 'cloudcover', 'tempmax', 'tempmin', 'precip', 'sealevelpressure', 'snowdepth', 'solarradiation']
@@ -38,8 +40,6 @@ df_selected = combined_df[features]
 
 # One-hot encoding for month_day
 df_selected = pd.get_dummies(df_selected, columns=['month_day'])
-
-# Apply low-pass filter
 values = df_selected.values
 
 # Normalize features
