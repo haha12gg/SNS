@@ -42,10 +42,10 @@ file_paths = {
 for name, path in file_paths.items():
     df = pd.read_csv(path)
 
-    # 调整sealevelpressure列，将小数点向右移两位
+    # adjust unit
     df['sealevelpressure'] = df['sealevelpressure'] * 100
 
-    # 输出新的CSV文件
+    # out put csv
     new_path = f'modified_{name}.csv'
     df.to_csv(new_path, index=False)
     print(f'Processed file saved to: {new_path}')
