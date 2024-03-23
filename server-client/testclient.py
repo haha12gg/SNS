@@ -6,7 +6,7 @@ def Main():
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
-
+    print("Hello, I’m the Oracle. How can I help you today?")
     while True:
         message = input("Enter your weather query (e.g., 'What is London's weather tomorrow?' or type 'exit' to quit): ")
         if message.lower() == 'exit':
