@@ -64,7 +64,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle
 model = Sequential([
     LSTM(128, return_sequences=True, input_shape=(look_back, X.shape[2])),
     LSTM(64, return_sequences=False),
+    # Dropout(0.2),
     Dense(32, activation='relu'),
+    # Dropout(0.2),
     Dense(16, activation='relu'),
     Dense(y.shape[1])
 ])
@@ -83,8 +85,8 @@ rmse = np.sqrt(mean_squared_error(y_test_inv, predictions))
 print(f'Test RMSE: {rmse}')
 
 # Save model and scaler
-model.save("weather_prediction_model.h5")
-joblib.dump(scaler, 'scaler.gz')
+model.save("weather_prediction_model3.h5")
+joblib.dump(scaler, 'scaler3.gz')
 
 # Plot train history
 plt.figure(figsize=(10, 6))
