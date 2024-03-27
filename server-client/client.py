@@ -8,7 +8,7 @@ def Main():
     s.connect((host, port))
     print("Hello, I’m the Oracle. How can I help you today?")
     while True:
-        message = input("Enter your weather query (e.g., 'What is London's weather on 29 March 2024?' or type 'exit' to quit): ")
+        message = input("Enter your weather query (e.g., 'What is London's weather(Or percipitation .etc) on 29 March 2024?' or type 'exit' to quit): ")
         if message.lower() == 'exit':
             break
 
