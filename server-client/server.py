@@ -202,7 +202,7 @@ def threaded(c):
                                    f"Snow Depth: {snow}\n" \
                                    f"Solar Radiation: {prediction[6]:.2f}"
                     else:
-                        response = "Sorry, I can only deal with weather prediction. Please ask about cloud cover, temperature, precipitation, sea level pressure, snow depth, or solar radiation."
+                        response = "Sorry, I can only deal with weather prediction. Please ask about cloud cover, temperature, precipitation, sea level pressure, snow depth, solar radiation, or weather for overall prediction"
 
         # send back response to client
         c.send(response.encode('utf-8'))
