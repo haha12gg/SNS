@@ -91,6 +91,8 @@ def predict_weather(input_date):
         return prediction_inversed[0]
 
     # If input date is beyond the dataset range
+    # In this case the weather is found for the same dates in the last two years.
+    # features for the first four days of both dates are averaged and fit into the model.
     else:
         # Extract month and day from input date
         month = input_date.month
