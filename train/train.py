@@ -64,9 +64,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle
 model = Sequential([
     LSTM(128, return_sequences=True, input_shape=(look_back, X.shape[2])),
     LSTM(64, return_sequences=False),
-    # Dropout(0.2),
+    Dropout(0.2),
     Dense(32, activation='relu'),
-    # Dropout(0.2),
+    Dropout(0.2),
     Dense(16, activation='relu'),
     Dense(y.shape[1])
 ])
